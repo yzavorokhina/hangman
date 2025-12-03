@@ -1,56 +1,163 @@
-@import "normalize";
-@import "bootstrap";
-
-body{
-  background-color: #ffffff;
+* {
+  box-sizing: border-box;
 }
 
-.product-card {
-  width: 500px;
-  height: 800px;
-  border-radius: 5px;
-  margin: 30px auto;
-  background-color: #ffff00;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.beveled-corners {
-  background-color: #ffff00;
-  /* Используем линейные градиенты для создания скошенных углов */
-  background: 
-    linear-gradient(135deg, transparent 15px, #ffff00 0) top left,
-    linear-gradient(225deg, transparent 15px, #ffff00 0) top right,
-    linear-gradient(315deg, transparent 15px, #ffff00 0) bottom right,
-    linear-gradient(45deg, transparent 15px, #ffff00 0) bottom left;
-  background-size: 50% 50%; /* Размер фоновых областей */
-  background-repeat: no-repeat; /* Запрет повторения */
-  padding: 15px; /* Отступы, чтобы контент не наползал на углы */
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.product-card div {
-  text-align: center;
-  // ease-in - the animation has a slow start:
-  // both - combines the behaviors:
-  animation: beerfadeIn 1.5s ease-in both;
-  padding: 20px;
+a {
+  text-decoration: none;
 }
 
-.product-card div img {
-  height: 250px;
-  padding-top: 20px;
+* {
+  font-family: "Comic Relief", system-ui;
+  /* border: 1px solid rgb(0, 255, 0); */
 }
 
-.product-card div h5 {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  color: #ff00ff;
-  font-weight: 800;
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
 
-@keyframes beerfadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.game {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 25px;
+}
+
+.gamer-tools {
+}
+
+.letter{
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.letters {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.word {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.word-letter {
+  border-bottom: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 30px;
+  height: 25px;
+  font-size: 35px;
+  line-height: 30px;
+}
+
+.gallows {
+  border: 1px solid black;
+  height: 400px;
+  flex-shrink: 0;
+  padding: 30px;
+  position: relative;
+}
+
+.gallows div {
+  display: none;
+}
+
+#kran {
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+  width: 250px;
+  height: 100%;
+  position: relative;
+}
+
+#kran:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 50px;
+  border-left: 2px solid black;
+}
+
+#head {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  position: absolute;
+  top: 80px;
+  right: 286px;
+  border: 2px solid black;
+}
+
+#body {
+  width: 60px;
+  height: 120px;
+  border: 2px solid black;
+  position: absolute;
+  top: 140px;
+  right: 286px;
+  border-radius: 80px;
+}
+
+#left-leg {
+  height: 80px;
+  border: 2px solid black;
+  position: absolute;
+  transform: rotate(10deg);
+  top: 241px;
+  right: 348px;
+}
+
+#left-arm{
+  height: 80px;
+  border: 2px solid black;
+  position: absolute;
+  transform: rotate(10deg);
+  top: 170px;
+  right: 351px;
+}
+
+#right-leg {
+  height: 80px;
+  border: 2px solid black;
+  position: absolute;
+  transform: rotate(-10deg);
+  top: 241px;
+  right: 281px;
+}
+
+#right-arm{
+  height: 80px;
+  border: 2px solid black;
+  position: absolute;
+  transform: rotate(-10deg);
+  top: 170px;
+  right: 278px;
 }
