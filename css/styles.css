@@ -1,0 +1,56 @@
+@import "normalize";
+@import "bootstrap";
+
+body{
+  background-color: #ffffff;
+}
+
+.product-card {
+  width: 500px;
+  height: 800px;
+  border-radius: 5px;
+  margin: 30px auto;
+  background-color: #ffff00;
+}
+
+.beveled-corners {
+  background-color: #ffff00;
+  /* Используем линейные градиенты для создания скошенных углов */
+  background: 
+    linear-gradient(135deg, transparent 15px, #ffff00 0) top left,
+    linear-gradient(225deg, transparent 15px, #ffff00 0) top right,
+    linear-gradient(315deg, transparent 15px, #ffff00 0) bottom right,
+    linear-gradient(45deg, transparent 15px, #ffff00 0) bottom left;
+  background-size: 50% 50%; /* Размер фоновых областей */
+  background-repeat: no-repeat; /* Запрет повторения */
+  padding: 15px; /* Отступы, чтобы контент не наползал на углы */
+}
+
+.product-card div {
+  text-align: center;
+  // ease-in - the animation has a slow start:
+  // both - combines the behaviors:
+  animation: beerfadeIn 1.5s ease-in both;
+  padding: 20px;
+}
+
+.product-card div img {
+  height: 250px;
+  padding-top: 20px;
+}
+
+.product-card div h5 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: #ff00ff;
+  font-weight: 800;
+}
+
+@keyframes beerfadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
