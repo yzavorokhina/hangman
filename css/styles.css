@@ -85,7 +85,7 @@ h1 {
 }
 
 .gallows div {
-  display: none;
+  /* display: none; */
 }
 
 #kran {
