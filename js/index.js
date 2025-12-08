@@ -1,5 +1,21 @@
+let state = JSON.parse(window.localStorage.getItem('state'));
+
+if (!state){
+    state = {
+        topicIndex: null,
+        wordIndex: null
+    }
+}
+
 let currentWord = null;
 let wordLetters = [];
+let errorScore = 0;
+let successScore = 0;
+
+//TODO save game in local storage (in function):
+let storedData = window.localStorage.getItem('saveGame');
+let saveGame = storedData ? JSON.parse(storedData) : [];
+
 
 //const alphabet = 'АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯ';
 const alphabet = 'абвгдеёжзиклмнопрстуфхцчшщьыъэюя';
@@ -27,11 +43,12 @@ const gameElements = {
 }
 
 function init(){
-    let topicIndex = rand(0, topics.length-1);
+    let topicIndex = state.topicIndex !== null ? state.topicIndex : rand(0, topics.length-1);
     let wordsSet = words[topics[topicIndex]];
-    let wordIndex = rand(0, wordsSet.length-1);
+    let wordIndex = state.wordIndex !== null ? state.wordIndex : rand(0, wordsSet.length-1);
 
     currentWord = wordsSet[wordIndex];
+    // currentWord = 'молоко';
 
     gameElements.topic.innerText = topics[topicIndex];
 
@@ -56,16 +73,30 @@ function init(){
 
         button.onclick = () => {
             checkLetter(alphabet[i]);
-        }
 
+        //TODO remove active settings of button:
+        // button.classList.remove("letter");
+        // button.classList.add('pink');
+        // button.disabled = true;
+        button.onclick = null;
+        }
         gameElements.letters.append(button);
     }
 }
 
+function* showHungmanPartGenerator(){
+    for (let i = 0; i < gameElements.hungman.length; i++){
+        gameElements.hungman[i].style.display = 'block';
+        yield;
+    }
+}
+
+let showHungmanPart = showHungmanPartGenerator();
+
 function checkLetter(letter){
     //console.log(letter);
     let pos = 0;
-    let indexes = [];
+    let indexes = []; //false
 
     while(true){
         let foundPos = currentWord.indexOf(letter, pos);
@@ -78,19 +109,38 @@ function checkLetter(letter){
         pos = foundPos + 1;
     }
 
-    if(indexes) {
+    if(indexes.length > 0) {
         // отображаем буквы:
+        // console.log('1234143');
+        for(let index of indexes){
+            wordLetters[index].element.innerText = wordLetters[index].letter;
+            successScore++;
+        }
+
+        if(successScore++ == currentWord.length){
+            gameOver('Вы выиграли!!');
+        }
 
     } else {
         // отрисовываем часть человека:
-        showHungmanPart();
-    }
+        // showHungmanPart();
+        showHungmanPart.next();
+        errorScore++;
 
+        if(errorScore >= gameElements.hungman.length){
+            gameOver('Вы проиграли!!');
+        }
+    }
 }
 
-function showHungmanPart(){
+function gameOver(message){
+    let gameOver = document.querySelector(".game-over");
+    gameOver.innerText = message;
+    gameOver.classList.add("active");
 
-    
+    setTimeout(() => {
+    window.location.reload();
+    })
 }
 
 function rand(min, max){
