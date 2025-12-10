@@ -16,20 +16,19 @@
 
 // let r = summ(1,2);
 
-// определение генератора - вернет объект
+// Generator-function return object
+// generator definition:
 function* generate() {
-    for(let i = 0; i < 10; i++){
+    for (let i = 0; i < 10; i++) {
         yield i;
     }
 }
 
-
-
-// создание генератора
+// creating a generator
 let gen = generate();
 
-//перебор объектов
-for(let m of gen){
+// iteration of objects
+for (let m of gen) {
     console.log(m);
 }
 
@@ -38,7 +37,7 @@ console.log(gen.next());
 console.log(gen.next());
 console.log(gen.next());
 
-function* show(){
+function* show() {
     console.log('Step 1');
     yield;
 
