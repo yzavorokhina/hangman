@@ -44,29 +44,39 @@ const gameElements = {
 }
 
 async function clearGameState() {
-    state.topicIndex = null;
-    state.wordIndex = null;
-    state.successScore = 0;
-    state.errorScore = 0;
-    state.currentWord = null;
-    state.wordLetters = [];
-    state.selectedLetters = [];
-    console.log({ clearGameState: JSON.stringify(state) });
-    console.log({ clearGameStateP: JSON.parse(JSON.stringify(state)) });
-    window.localStorage.setItem('gameState', JSON.stringify(state));
+    state = {
+        currentWord: null,
+        wordLetters: [],
+        topicIndex: null,
+        wordIndex: null,
+        errorScore: 0,
+        successScore: 0,
+        totalErrorScore: 0,
+        totalSuccessScore: 0,
+        selectedLetters: []
+    }
+    currentWord = null;
+    wordLetters = [];
+    selectedLetters = [];
+    errorScore = 0;
+    successScore = 0;
+    totalErrorScore = 0;
+    totalSuccessScore = 0;
 
-    let newState = JSON.parse(window.localStorage.getItem('gameState'));
-    
-    console.log({ newState });
+    window.localStorage.clear('gameState');
+    let loadState = JSON.parse(window.localStorage.getItem('gameState'));
+    console.log({ clear: true, loadState });
 }
 
 async function saveGameState() {
-    window.localStorage.clear('gameState');
+    window.localStorage.setItem('gameState', JSON.stringify(state));
 }
 
 async function loadGameState() {
     let loadState = JSON.parse(window.localStorage.getItem('gameState'));
     
+    console.log({ load: true, loadState });
+
     if (loadState) {
         state = loadState;
     }
@@ -84,6 +94,7 @@ async function init() {
 
     selectedLetters = state.selectedLetters !== null ? state.selectedLetters : [];
 
+    // TODO: add totalErrorScore & totalSuccessScore fields:
     //totalErrorScore = state.totalErrorScore > 0 ? state.totalErrorScore : 0;
     //totalSuccessScore = state.totalSuccessScore > 0 ? state.totalSuccessScore : 0;
 
@@ -117,11 +128,11 @@ async function init() {
         if (selectedLetters.indexOf(alphabet[i]) !== -1) {
             button.classList.add('grey-letter');
             button.disabled = true;
-            checkLetter(alphabet[i], true);
+            await checkLetter(alphabet[i], true);
         }
 
-        button.onclick = () => {
-            checkLetter(alphabet[i]);
+        button.onclick = async () => {
+            await checkLetter(alphabet[i]);
 
             // stylization of pressed letters:
             button.classList.add('grey-letter');
@@ -158,6 +169,11 @@ async function checkLetter(letter, init = false) {
 
     console.log({indexes});
 
+    if (!init) {
+        selectedLetters.push(letter);
+        await saveGameState();
+    }
+
     if (indexes.length > 0) {
         // display letters:
         // console.log('1234143');
@@ -182,11 +198,6 @@ async function checkLetter(letter, init = false) {
             gameOver(false);
         }
     }
-
-    if (!init) {
-        selectedLetters.push(letter);
-        await saveGameState();
-    }
 }
 
 function gameOver(result) {
@@ -203,10 +214,9 @@ function gameOver(result) {
         gameOverElement.classList.add('red-fail');
     }
 
-
-    // setTimeout(() => {
-    //     window.location.reload();
-    // }, 5000);
+    setTimeout(() => {
+        window.location.reload();
+    }, 3000);
 }
 
 function rand(min, max) {
