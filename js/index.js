@@ -122,6 +122,7 @@ async function init() {
 
     for (let i = 0; i < alphabet.length; i++) {
         let button = document.createElement("button");
+        button.id = 'key' + i;
         button.classList.add("letter");
         button.innerText = alphabet[i];
 
@@ -141,8 +142,137 @@ async function init() {
 
         gameElements.letters.append(button);
     }
+
+    document.addEventListener('keydown', async function(event) {
+        console.log(event.code);
+        if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
+            alert('Отменить!')
+        }
+        let pressedLetter;
+
+        switch(event.code) {
+            case 'KeyQ':
+                pressedLetter = 'й';
+                break;
+            case 'KeyW': 
+                pressedLetter = 'ц';
+                break;
+            case 'KeyE':
+                pressedLetter = 'у';
+                break;
+            case 'KeyR': 
+                pressedLetter = 'к';
+                break;
+            case 'KeyT':
+                pressedLetter = 'е';
+                break;
+            case 'KeyY': 
+                pressedLetter = 'н';
+                break;
+            case 'KeyU':
+                pressedLetter = 'г';
+                break;
+            case 'KeyI': 
+                pressedLetter = 'ш';
+                break;
+            case 'KeyO':
+                pressedLetter = 'щ';
+                break;
+            case 'KeyP': 
+                pressedLetter = 'з';
+                break;
+
+            case 'Key{':
+                pressedLetter = 'х';
+                break;
+            case 'Key}': 
+                pressedLetter = 'ъ';
+                break;
+
+
+            case 'KeyA':
+                pressedLetter = 'ф';
+                break;
+            case 'KeyS': 
+                pressedLetter = 'ы';
+                break;
+            case 'KeyD':
+                pressedLetter = 'в';
+                break;
+            case 'KeyF': 
+                pressedLetter = 'а';
+                break;
+            case 'KeyG':
+                pressedLetter = 'п';
+                break;
+            case 'KeyH': 
+                pressedLetter = 'р';
+                break;
+            case 'KeyJ':
+                pressedLetter = 'о';
+                break;
+            case 'KeyK': 
+                pressedLetter = 'л';
+                break;
+            case 'KeyL':
+                pressedLetter = 'д';
+                break;
+
+            case 'Key:': 
+                pressedLetter = 'ж';
+                break;
+            case 'Key"': 
+                pressedLetter = 'э';
+                break;
+            case 'KeyZ': 
+                pressedLetter = 'я';
+                break;
+            case 'KeyX': 
+                pressedLetter = 'ч';
+                break;
+            case 'KeyC': 
+                pressedLetter = 'с';
+                break;
+            case 'KeyV': 
+                pressedLetter = 'м';
+                break;
+            case 'KeyB': 
+                pressedLetter = 'и';
+                break;
+            case 'KeyN': 
+                pressedLetter = 'т';
+                break;
+            case 'KeyM': 
+                pressedLetter = 'ь';
+                break;
+            case 'Comma': 
+                pressedLetter = 'б';
+                break;
+            case 'Period': 
+                pressedLetter = 'ю';
+                break;
+
+            // case 'Key?': 
+            //     pressedLetter = '/';
+            //     break;
+        }
+
+        if (!pressedLetter) {
+            return;
+        }
+
+        await checkLetter(pressedLetter);
+
+        // make selected btn grey
+        const btnId = 'key' + alphabet.indexOf(pressedLetter);
+        const button = document.getElementById(btnId);
+        button.classList.add('grey-letter');
+        button.disabled = true;
+    });
 }
 
+// Функция-генератор, которая может приостанавливать и возобновлять свое выполнение («замороженный вызов функции»),
+// возвращая объект-итератор вместо обычного значения:
 function* showHungmanPartGenerator() {
     for (let i = 0; i < gameElements.hungman.length; i++) {
         gameElements.hungman[i].style.display = 'block';
@@ -190,6 +320,7 @@ async function checkLetter(letter, init = false) {
     } else {
         // draw a part of a hangman:
         // showHungmanPart();
+        // основной метод генератора:
         showHungmanPart.next();
         errorScore++;
 
