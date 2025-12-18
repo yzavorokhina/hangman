@@ -18,6 +18,7 @@ let successScore = 0;
 let totalErrorScore = 0;
 let totalSuccessScore = 0;
 
+const localStorageKey = 'hangmanState';
 //const alphabet = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
 const alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
 const topics = ["Города", "Транспорт", "Спорт"];
@@ -63,17 +64,17 @@ async function clearGameState() {
     totalErrorScore = 0;
     totalSuccessScore = 0;
 
-    window.localStorage.clear('gameState');
-    let loadState = JSON.parse(window.localStorage.getItem('gameState'));
+    window.localStorage.clear(localStorageKey);
+    let loadState = JSON.parse(window.localStorage.getItem(localStorageKey));
     console.log({ clear: true, loadState });
 }
 
 async function saveGameState() {
-    window.localStorage.setItem('gameState', JSON.stringify(state));
+    window.localStorage.setItem(localStorageKey, JSON.stringify(state));
 }
 
 async function loadGameState() {
-    let loadState = JSON.parse(window.localStorage.getItem('gameState'));
+    let loadState = JSON.parse(window.localStorage.getItem(localStorageKey));
     
     console.log({ load: true, loadState });
 
@@ -100,7 +101,7 @@ async function init() {
 
     state.topicIndex = topicIndex;
     state.wordIndex = wordIndex;
-    window.localStorage.setItem('gameState', JSON.stringify(state));
+    window.localStorage.setItem(localStorageKey, JSON.stringify(state));
 
     currentWord = wordsSet[wordIndex];
     // currentWord = 'молоко';
